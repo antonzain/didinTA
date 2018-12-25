@@ -1,0 +1,255 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}
+\usepackage{geometry}
+\usepackage{mathtools}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage[figurename=Gambar]{caption}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage{setspace}
+\usepackage{color}
+\usepackage[explicit]{titlesec}
+\usepackage{tocloft}
+\usepackage{titletoc}
+\usepackage{indentfirst}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{amsmath} 
+\usepackage{pdfpages}
+\usepackage{enumitem}
+
+%\color{white}
+%\pagecolor{black}
+
+\hypersetup{colorlinks,
+	citecolor=black,
+	filecolor=black,
+	linkcolor=black,
+	urlcolor=black
+}
+
+\geometry{
+	a5paper,
+	left=30mm,
+	right=25mm,
+	top=15mm,
+	bottom=15mm,
+}
+
+\date{}
+%=============================================================================
+% Modified Items
+
+\providecommand{\keywordid}[1]{\textit{Kata Kunci: } #1}
+\providecommand{\keyworden}[1]{\textit{Keywords: } #1}
+
+\titleformat{\section}{}{}{0pt}{}
+\titleformat{\subsubsection}{\small \bfseries}{\thesubsection}{0pt}{}
+
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+
+\makeatletter
+\let\latexl@section\l@section
+\def\l@section#1#2{\begingroup\let\numberline\@gobble\latexl@section{#1}{#2}\endgroup}
+\makeatother
+
+\addto\captionsenglish{\renewcommand{\contentsname}{}}
+\addto\captionsenglish{\renewcommand{\listfigurename}{}}
+
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsecpagefont}{\normalfont}
+
+\renewcommand{\thefigure}{\arabic{section}.\arabic{figure}}
+
+\hyphenation{mening-katnya fuz-zy}
+
+%=============================================================================
+% Document Part
+
+\begin{document}
+	
+	\onehalfspacing
+	%=============================================================================
+	% BAB I
+	
+	\newpage
+	
+	\pagenumbering{arabic}
+	\setcounter{page}{9}
+	
+	\setcounter{section}{0}
+	
+	\setcounter{figure}{0}
+	
+	\section{Pendahuluan}
+	
+	\begin{center}
+		{\large \textbf{BAB I}} \\
+		{\large \textbf{Pendahuluan}}
+	\end{center}
+	
+	\subsection{Latar Belakang}
+	
+	Kehidupan lansia di Indonesia meningkat seirinng meningkatnya jumlah kelahiran dan meningkatnya angka harapan hidup . hasil survey oleh  BPS  jumlah lansia mencapai 22.4 juta atau  8,69\%. pada tahun 2015[1] dan diperkirakan oleh BPS pada tahun 2018 bisa mencapai 9,3\% dari penduduk seluruh indonesia atau 24.7 juta jiwa.
+	Hal ini akan berakibat fatal apabila kehidupan lansia tidak dijaga dengan baik.
+	Menjaga kesehatan lansia dalam usia yang sudah rentan baik di sebuah rumah atau gedung sangat perlu kehati-hatian.
+	Contoh resiko jatuh lansia pada rumahan di Krasakan Lumbungrejo Tempel Sleman Yogyakarta dengan jumlah koresponden 100 orang, hasil yang di dapat  yaitu 16 orang (41\%) responden memiliki risiko jatuh sedang, 15 orang (38.5\%) memiliki risiko jatuh rendah dan yang terakhir 8 orang (20.5\%) memiliki risiko jatuh tinggi.
+	Namun peningakatan resiko jatuh menjadi lebih besar jika lansia terdapat pada satu gedung atau rumah panti jompo.
+	Contoh saja penelitian di panti social Tresna Werdha Budi Mulia 4 Margagguna, Jakarta Selatan dengan jumlah korespondsi 51 orang.
+	Resiko jatuh dengan aktifitas fisik (73.7\%).
+	Sehingga perhatian pada lansia harus sangat diperhatikan dan apabila lengah sedikit saja para lansia bisa saja terjatuh dan berakibat fatal.
+	Dalam hal ini perhatian untuk di rumah di panti sosial menjadi kurang, ini bisa dilihat resiko jatuh pada lansia adalah (73.7\%).
+	Sehubungan dengan pentingnya akan pendeteksi jatuh pada lansia maka alat yang tersedia terus berkembang mulai dari hardware sampai software yang digunakan.
+	Contohnya saja pada tahun 2012 telah dibuat penelitian pendeteksi jatuh pada lansia menggunakan sistem fuzzy dan apabila terdeteksi dikomunikasikan melalui wireless xbee dan hasilnya sistem ini mempunyai akurasi minimal 86,6\%.
+	Lalu pada tahun 2013 juga dibuat sistem pendeteksi jatuh dengan menggunakan fuzzy namun tidak mengirimkan data dan sekedar alarm di tubuh objek.
+	Untuk akurasinya mencapai 92\%.
+	Pada tahun 2014 untunk penelitian pendeteksi jatuh namun menggunakan type 2 fuzzy namun keakuratan justru hanya 80\%.
+	Untuk tahun 2015 juga telah dibuat penelitian deteksi sistem jatuh menggunakan high level fuzzy petri net.
+	Dan untuk sistem ini ke akurasiannya mencapai diatas 90\%.
+	Untuk tahun 2016 dilakukan penelitian tentang teknik deteksi untuk jatuh menggunakan fuzzy model takagi sugeno dengan sensor accelerometer lalu pada tahun 2018 terdapat penelitian menggunakan metode non-intrusive deteksi jatuh pada lansia menggunakan logika fuzzy yang terdapat dua sensor untuk mendeteksi jatuh.
+	Dua sensor ini yaitu sensor accelerometer dan sensor suara.
+	Apabila terdeteksi maka akan dikirimkan melalui IoT ke perawat yang menjaga. Untuk sistem ini tingkta ke akurasian mencapai 80\%.
+	
+	Pada perkembangan alat pendeteksi jatuh dengan sensor accelerometer dan gyroscope  yang dibuat oleh Luthfi Fathurrahman sebelum memakai sistem adaptive neuro fuzzy inference system (ANFIS) hanya mempunyai sensitifitas  80\% dan spesitifitas 88\%.
+	Ketika memakai sistem adaptive neuro fuzzy inference system (ANFIS) mempunyai kenaikan ketika nilai range of influence sebesar 0,1  maka sensitiitas menjadi 100% dan spesitifitas menjadi 91.67\%.
+	Untuk range of influence sebesar 0,05  maka sensitifitas dan spesitifitas  menjadi 100.
+	Dalam sistem sistem adaptive neuro fuzzy inference system (ANFIS) ini  mempunyai kekurangan yaitu belum bisa mendeteksi ketika objek terjatuh ke belakang sehingga nilai inilah yang harus di optimasi.
+	Memaksimalkan keakurasi pendeteksian objek ketika terjatuh merupakan hal yang wajib yang harus dilakukan.
+	Salah satu langkah dalam pendeteksian seperti menambah sensor.
+	Sensor yang dimaksud adalah sensor suara, seperti pada jurnal yang dibuat oleh  Poi Voon Er dan Kok Kiong Tan kesalahan bisa ditekan sampai 20 persen dan penambahan fitur optimasi untuk mengurangi kesalahan.
+	Optimasi merupakan proses untuk memaksimalkan suatu perhitungan tertentu.
+	Memaksimalkan suatu perhitungan tertentu maksudnya sistem fuzzy dalam penelitian sebelumnya tidak bisa mendeteksi jatuh kebelakang.
+	Sehingga harapannya optimasi berjalan maksimal dan tidak ada kekurangan untuk logaritma fuzzy.
+	Optimasi sendiri harus dilakukan dengan penuh percobaan dan perhitungan agar nilai hasil benar-benar merupakan nilai maksimal yang bisa dsilakukan.		
+	
+	\subsection{Rumusan Masalah}
+	
+		Adapun masalah dalam melakukan penelitian Tugas Akhir ini adalah sebagai berikut: :
+	
+	\begin{enumerate}[label=\alph*.]
+		\item Bagaimanakah cara menentukan karakteristik kondisi orang saat terjatuh berdasarkan kegiatan yang sudah ditentukan?
+		\item Bagaimana cara menentukan dan mengimplementasikan sebuah sistem pendeteksi kondisi terjatuh berbasis sensor posisi dam suara ?
+		\item Bagaimana cara mengintegrasikan sensor posisi dan suara dengan fuzzy PSO (Particle Swarm Optimization) sebagai pengambil keputusan?
+		\item Bagaimana cara menentukan performance dari sistem pendeteksi kondisi terjatuh berbasis accelerometer menggunakan fuzzy PSO (Particle Swarm Optimization)?
+	
+	\end{enumerate}
+	
+	
+	
+	\subsection{Tujuan Penelitian}
+	
+		Adapun masalah dalam melakukan penelitian Tugas Akhir ini adalah sebagai berikut: :
+	
+	\begin{enumerate}[label=\alph*.]
+		\item Menentukan karakteristik kondisi orang saat terjatuh berdasarkan kegiatan yang sudah ditentukan
+		\item Menentukan dan mengimplementasikan sebuah sistem pendeteksi kondisi terjatuh berbasis sensor posisi dan suara?
+		\item Mengintegrasikan sensor posisi dan suara dengan fuzzy PSO (Particle Swarm Optimization) sebagai pengambil keputusan
+		\item Menentukan performance dari sistem pendeteksi kondisi terjatuh berbasis accelerometer menggunakan fuzzy PSO (Particle Swarm Optimization)
+		
+	\end{enumerate}
+	
+	
+	\subsection{Manfaat Penelitian}
+	
+Adapun batasan masalah yang digunakan dalam pengerjaan tugas akhir ini adalah sebagai berikut :
+	
+	\begin{enumerate}[label=\alph*.]
+		
+		\item Sensor yang digunakan adalah accelerometer, Gyroscope dan mic modul
+		\item Metode yang digunakan dalam sistem pendeteksi terjatuh adalah PSO (Particle Swarm Optimization)
+		\item Jenis kegiatan/ aktifitas objek untuk tujuan pengambilan data sudah ditentukan seperti berjalan, jogging, berdiri dan lain-lain
+		\item Penempatan sensor untuk tujuan pengambilan data berada pada tiga posisi yaitu dada, reins dan paha
+		
+	\end{enumerate}
+
+	\subsection{Sistematika Laporan}
+
+Sistematika penulisan laporan tugas akhir adalah sebagai berikut:
+
+\begin{enumerate}[label=\alph*.]
+	
+		
+	\item Pada bab I yaitu pendahuluan yang terdiri dari latar belakang, rumusan masalah, tujuan, batasan masalah, dan sistematika laporan. 
+	\item Pada bab II adalah teori penunjang dan dibahas mengenai teori-teori yang berkaitan dengan penelitian yang akan dilakukan, seperti teori accelerometer, mic, modul wifi, microcontroller dan android.
+	\item Pada bab III yaitu metodologi penelitian yang berisi mengenai rancangan dari penelitian yang dilakukan, metode, dan langkah-langkah dalam penelitian. 
+	\item Pada bab IV analisis data dan pembahasan yaitu berisi tentang analisis hasil perancangan sistem fuzzy PSO
+	\item Pada bab V kesimpulan dan saran yang berisi kesimpulan tentang tugas akhir yang telah dilakukan berdasarkan data-data yang diperoleh serta diberikan saran sebagai penunjang maupun pengembangan untuk tugas akhir yang selanjutnya. 
+	
+	
+\end{enumerate}
+%=============================================================================
+
+%\newpage
+%\thispagestyle{plain}
+%\mbox{}
+
+%=============================================================================
+% BAB II 
+
+\newpage
+
+\setcounter{figure}{0}
+
+\section{TINJAUAN PUSTAKA}
+
+\begin{center}
+	{\large \textbf{BAB II}} \\
+	{\large \textbf{TINJAUAN PUSTAKA}}
+\end{center}
+
+\subsection{Sensor Accelorometer}
+
+Sensor Accelorometer adalah sensor yang digunakan untuk mengukur percepatan, getaran dan gravitasi.
+Sensor Acceloromoter punya banyak type IC yang digunakan, salah satunya adalah IC MPU 6050.
+Sensor ini mempunyai 3 sumbu sebagai pengukurannya yaitu sumbu X, sumbu Y dan sumbu Z.
+dan untuk satuan dari pengukuran accelorometer ini adalah percepatan.
+Untuk sensor modulnya bisa dilihat pada gambar 1.1
+
+Cara kerjanya untuk sensor accelorometer ini adalah  adalah menggunakan lempenga.
+Lempengan tersebut dialiri aliran listrik.
+Ketika terjadi perubahan gerakan pada bagaian-bagaiannya maka bagaian itu terjadi perubahan kapasistif.
+Lalu perubahan kapasitif inilah yang menjadi tegangan output.
+Untuk gambaran cara kerja untuk sensor acceloromoter bisa dilihat pada gambar 2.1
+Pada gambar 1.2 menggambarkan suatu bola pada kotak yang mempunyai sumbu X, Y dan Z. Setiap ada gerakan tertentu bolah pasti menyentuh beberapa sumbu tersebut. Sentuhan bisa pada sumbu X, Y atau Z atau bisa sentuhan tersebut pada sumbu positif atau negatif.
+Pada gambar 1.1 karena sudah terintegrasi dengan accelerometer maka modul ini mempunyai 3 sumbu yaitu X, Y dan Z.
+Untuk IC yang digunakan adalah MPU 6050.
+Chip ini mempunyai banyak fitur salah satunya adalah sudah memiliki digital motion prosesor (DMP) yang mengolah data mentah dari masing-masing sensor dan dapat menimalisasi error yang dihasilkan.
+
+\subsection{Modul Mic Arduino}
+Mic adalah suatu perangkat yang mengubah gelombang suara menjadi gelombang elektrik.
+Cara kerja mic ini adalah  terdapat membran dan membran inilah yang menghasilkan listrik.
+Kecepatan bergeraknya membran inilah yang menghasilkan listrik yang dihasilkan.
+Untuk modul dapat dilihat pada gambar 1.5.
+
+Pada gambar 1.4 adalah modul mic yang menyediakan potensiometer.
+Berbagai macam gain dalam modul ini berfungsi sebagai mengubah atau menyesuaikan gain keluaran keluaran.
+Keluaran gain ini nantinya akan berpengaruh ke input ADC.
+Sinyal yang terhubung dengan modul ini akan merubah dalam bentuk ADC agar bisa dirubah dalam bentuk sinyal digital.
+
+\subsection{Modul Wifi Arduino}
+Modul WI-Fi ESP 8266 Arduino
+
+\subsection{Modul Charger Baterai}
+Pada modul berfungsi sebagai kontrol tegangan dan arus sebelum masuk ke baterai.
+Tegangan pada micro USB adalah 5 VDC sedangkan pada tegangan  baterai adalah 3.7.
+VDC namun dalam percobaan tegangan ketika charging adalah 4,2 VDC.
+
+Pada gambar menunjukkan tentang modul chager pada baterai lithium 3.7V.
+Dalam modul charger tersebut ada 3 IC utama yang tertanam dalam modul tersebut.
+3 IC tersebut adalah  IC dengan jenis LTC4056-4.2 lalu IC dengan jenis DWG01 dan IC dengan jenis S-8205A/B.
+Untuk penjelasannya IC  LTC4056-4.2 berfungsi mengubah tegangan input dengan masukan 4,5-6,5V menjadi tegangan charging 4,2 V dengan arus ke baterai sesuai datasheet 700 mA.
+IC kedua alah IC DWG01-G yang berfungsi mempertahankan tegangan di 4,2 V.
+
+\subsection{Modul Step Up Tegangan 5V}
+Modul step up ini adalah merubah tegangan dari baterai menjadi tegangan operasional pada microcontreller.
+Perubahan tegangan ini diperlukan karena tegangan operasional baterai adalah 3.7 VDC dan untuk tegangan operasional pada mikrokontroller adalah 5VDC.
+Pada modul step up ini tertanam IC 
+
+\subsection{Baterai Lithium 3,7 V}
+Baterai adalah tempat penyimpanan energi listrik melalui reaksi kimia. 
+
+\end{document}
