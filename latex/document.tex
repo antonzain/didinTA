@@ -68,6 +68,9 @@
 
 \hyphenation{mening-katnya fuz-zy}
 
+
+\numberwithin{equation}{subsection}
+
 %=============================================================================
 % Document Part
 
@@ -357,6 +360,27 @@ Pada sebuah himpunan fuzzy  direpresentasikan pada fungsi keanggotaan gaussian, 
 Contoh penjelasannnya adalah sebgai berikut:
 \begin{enumerate}[label=\alph*.]
 	\item Fungsi keanggotaan segitiga, Fungsi  keanggotaan  segitiga dibentuk oleh 3 parameter  {a, b, c} yang dapat dideskripsikan oleh Persamaan (2.4)
+	
+	\begin{equation}
+		\mu[x] = 0;x \leq a
+	\end{equation}
+	
+	\begin{equation}
+		\mu[x] = 0;x \geq a
+	\end{equation}
+	
+	\begin{equation}
+		\mu[x] = \frac{(x-a)}{(b-a)};a < x \leq b
+	\end{equation}
+	
+	\begin{equation}
+		\mu[x] = \frac{(c-x)}{(c-b)};b < x \leq c
+	\end{equation}
+	
+	\begin{equation}
+		\mu[x] = \max(\min(\frac{(x-a)}{(b-a)} , \frac{(c-x)}{c-b}), 0)
+	\end{equation}
+	
 	\item Fungsi Keanggotaan Trapesium, fungsi keanggotaan trapesium dibentuk oleh 4 parameter {a, b, c, d} yang dapat dideskripsikan oleh Persamaan (2.5)
 	\item Fungsi keanggtaan gaussian. Fungsi  keanggotaan  Gaussian  dibentuk  oleh  2  parameter .	c merpresentasikan pusat fungsi keanggotaan dan \ merepresetasikan lebar ruang fungsi  keanggotaan.
 	Fungsi  keanggotaan  Gaussian  dapat  dideskripsikan  oleh Persamaan (2.6)
