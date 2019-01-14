@@ -33,6 +33,10 @@
 extern adcsample_t adc0;
 extern float ax,ay,az,mag;
 
+adcsample_t f_adc0;
+float f_mag;
+u_int8_t f_res;
+
 static THD_WORKING_AREA(waLED, 128);
 static THD_FUNCTION(thdLED, arg) {
 
@@ -71,7 +75,10 @@ int main(void) {
 
   while(true){
     chThdSleepMilliseconds(1);
-    chprintf((BaseSequentialStream *)&SD1,"%4i,%5.2f,%5.2f,%5.2f,%5.2f\r\n",adc0,ax,ay,az,mag);
+    f_mag = mag;
+    f_adc0 = adc0;
+    f_res = d_fuzzy(f_adc0,f_mag);
+    chprintf((BaseSequentialStream *)&SD1,"%4i,%5.2f,%5.2f,%5.2f,%5.2f,%1i\r\n",f_adc0,ax,ay,az,f_mag,f_res);
 //    d_web_term();
   }
 }

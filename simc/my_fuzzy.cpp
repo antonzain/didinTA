@@ -1,78 +1,10 @@
-/*
-              DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+#include "my_fuzzy.h"
 
- Copyright (C) 2018 Achmadi S.T.
+MyFuzzy::MyFuzzy() {
+    //do nothing for now
+}
 
- Everyone is permitted to copy and distribute verbatim or modified
- copies of this license document, and changing it is allowed as long
- as the name is changed.
-
-            DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
-   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
-
-  0. You just DO WHAT THE FUCK YOU WANT TO.
- */
-
-/**
- * @file    din_fuzzy.c
- * @brief   Fuzzy Logic code.
- *
- * @addtogroup Fuzzy
- * @{
- */
-
-#include "din_fuzzy.h"
-
-/**
- * @brief   Accelerometer fuzzy array variable
- */
-static float f_accel[3];
-
-/**
- * @brief   Mic fuzzy array variable
- */
-static float f_mic[3];
-
-/**
- * @brief   Fuzzy rule array variable
- */
-static float f_rule[RULE_SIZE];
-
-/**
- * @brief   Accelerometer low membership array variable
- */
-static double vf_accel_rendah[2] = {7, 7.7849};
-
-/**
- * @brief   Accelerometer mid membership array variable
- */
-static double vf_accel_sedang[3] = {7.6108, 9, 10.3521};
-
-/**
- * @brief   Accelerometer high membership array variable
- */
-static double vf_accel_tinggi[2] = {9.0384, 13};
-
-/**
- * @brief   Mic low membership array variable
- */
-static double vf_mic_rendah[2] = {5, 7.5737};
-
-/**
- * @brief   Mic mid membership array variable
- */
-static double vf_mic_sedang[3] = {5.5464, 8, 9.3129};
-
-/**
- * @brief   Mic high membership array variable
- */
-static double vf_mic_tinggi[2] = {7.3390, 12};
-
-/**
- * @brief   Accelerometer membership fuzzyfication
- * @param[in] input_accel Input from Accelerometer
- */
-static void Accel(float input_accel){
+void MyFuzzy::Accel(float input_accel){
     // fuzzy RENDAH
     if(input_accel <= vf_accel_rendah[0]){
         f_accel[0] = 1;
@@ -110,11 +42,7 @@ static void Accel(float input_accel){
     }
 }
 
-/**
- * @brief   Mic membership fuzzyfication
- * @param[in] input_mic Input from Mic
- */
-static void Mic(double input_mic){
+void MyFuzzy::Mic(unsigned int input_mic){
     // fuzzy RENDAH
     if(input_mic <= vf_mic_rendah[0]){
         f_mic[0] = 1;
@@ -152,38 +80,7 @@ static void Mic(double input_mic){
     }
 }
 
-/**
- * @brief   Evaluasi Fuzzy
- * @return Index maximum membership of fuzzy array
- */
-static u_int16_t Evaluasi(void){
-    unsigned int m,n;
-    unsigned int i,idx=0;
-    float v_max;
-
-    for(m=0;m<=2;m++){
-        for(n=0;n<=2;n++){
-            f_rule[3*m + n]=f_accel[m]*f_mic[n];
-        }
-    }
-
-    v_max = f_rule[0];
-
-    for(i=1;i<RULE_SIZE;i++){
-        if(f_rule[i] > v_max){
-            v_max = f_rule[i];
-            idx = i;
-        }
-    }
-
-    return idx;
-}
-
-/**
- * @brief  Decision based on fuzzy rule array
- * @return Index of Response fuzzy logic
- */
-static u_int16_t Decision(unsigned int index){
+unsigned int MyFuzzy::Decision(unsigned int index){
     unsigned int out_fuzzy=0;
 
     switch (index){
@@ -219,14 +116,25 @@ static u_int16_t Decision(unsigned int index){
     return out_fuzzy;
 }
 
-/**
- * @brief  Main Fuzzy routine
- * @return Response fuzzy logic
- */
-u_int8_t d_fuzzy(adcsample_t vadc, float vmag){
-    Accel(vmag);
-    Mic(vadc);
+unsigned int MyFuzzy::Evaluasi(void){
+    unsigned int m,n;
+    unsigned int i,idx=0;
+    float v_max;
 
-    return Decision(Evaluasi());
+    for(m=0;m<=2;m++){
+        for(n=0;n<=2;n++){
+            f_rule[3*m + n]=f_accel[m]*f_mic[n];
+        }
+    }
+
+    v_max = f_rule[0];
+
+    for(i=1;i<RULE_SIZE;i++){
+        if(f_rule[i] > v_max){
+            v_max = f_rule[i];
+            idx = i;
+        }
+    }
+
+    return idx;
 }
-/** @} */
