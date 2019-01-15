@@ -23,6 +23,9 @@
 
 #include "din_fuzzy.h"
 
+extern adcsample_t adc0;
+extern float ax,ay,az,mag;
+
 /**
  * @brief   Accelerometer fuzzy array variable
  */
@@ -41,32 +44,32 @@ static float f_rule[RULE_SIZE];
 /**
  * @brief   Accelerometer low membership array variable
  */
-static double vf_accel_rendah[2] = {7, 7.7849};
+static double vf_accel_rendah[2] = {17.79, 27.44};
 
 /**
  * @brief   Accelerometer mid membership array variable
  */
-static double vf_accel_sedang[3] = {7.6108, 9, 10.3521};
+static double vf_accel_sedang[3] = {18.49, 26.94, 31.83};
 
 /**
  * @brief   Accelerometer high membership array variable
  */
-static double vf_accel_tinggi[2] = {9.0384, 13};
+static double vf_accel_tinggi[2] = {27.44, 31.33};
 
 /**
  * @brief   Mic low membership array variable
  */
-static double vf_mic_rendah[2] = {5, 7.5737};
+static unsigned int vf_mic_rendah[2] = {473, 542};
 
 /**
  * @brief   Mic mid membership array variable
  */
-static double vf_mic_sedang[3] = {5.5464, 8, 9.3129};
+static unsigned int vf_mic_sedang[3] = {473, 542, 591};
 
 /**
  * @brief   Mic high membership array variable
  */
-static double vf_mic_tinggi[2] = {7.3390, 12};
+static unsigned int vf_mic_tinggi[2] = {542, 591};
 
 /**
  * @brief   Accelerometer membership fuzzyfication
@@ -114,7 +117,7 @@ static void Accel(float input_accel){
  * @brief   Mic membership fuzzyfication
  * @param[in] input_mic Input from Mic
  */
-static void Mic(double input_mic){
+static void Mic(unsigned int input_mic){
     // fuzzy RENDAH
     if(input_mic <= vf_mic_rendah[0]){
         f_mic[0] = 1;
@@ -223,9 +226,9 @@ static u_int16_t Decision(unsigned int index){
  * @brief  Main Fuzzy routine
  * @return Response fuzzy logic
  */
-u_int8_t d_fuzzy(adcsample_t vadc, float vmag){
-    Accel(vmag);
-    Mic(vadc);
+u_int16_t d_fuzzy(void){
+    Accel(mag);
+    Mic(adc0);
 
     return Decision(Evaluasi());
 }

@@ -23,22 +23,24 @@
 
 #include "din_mpu.h"
 
+extern adcsample_t adc0,adc00,adc01;
+
 /////////////////////////////////////// Rutin MPU60x0 (hasil nyolong kerjaan orang) ////////////////
 
 /**
  * @brief   Global variable for Accel vector X.
  */
-float ax;
+float ax,ax0,ax1;
 
 /**
  * @brief   Global variable for Accel vector Y.
  */
-float ay;
+float ay,ay0,ay1;
 
 /**
  * @brief   Global variable for Accel vector Z.
  */
-float az;
+float az,az0,az1;
 
 /**
  * @brief   Global variable for Accel vector Magnitude.
@@ -326,9 +328,18 @@ void d_mpu_i2cReadData(u_int8_t addr, u_int8_t length){
     mpu_val[5] = (mpu_rxbuf[10] << 8) + mpu_rxbuf[11];
     mpu_val[6] = (mpu_rxbuf[12] << 8) + mpu_rxbuf[13];
 
-    ax = mpu_val[0] * rangePerDigit * 9.80665f;
-    ay = mpu_val[1] * rangePerDigit * 9.80665f;
-    az = mpu_val[2] * rangePerDigit * 9.80665f;
+    ax1 = mpu_val[0] * rangePerDigit * 9.80665f;
+    ay1 = mpu_val[1] * rangePerDigit * 9.80665f;
+    az1 = mpu_val[2] * rangePerDigit * 9.80665f;
+
+    ax = abs(ax1-ax0);
+    ay = abs(ay1-ay0);
+    az = abs(az1-az0);
+
+    ax0 = ax1;
+    ay0 = ay1;
+    az0 = az1;
+
     mag = d_mpu_vectorMag(ax,ay,az);
 
 #if MPU_DEBUG
@@ -337,6 +348,39 @@ void d_mpu_i2cReadData(u_int8_t addr, u_int8_t length){
     chprintf((BaseSequentialStream *)&SD1, "\r\n");
 #endif
 
+}
+
+void d_mpu_i2cReadFirst(u_int8_t addr, u_int8_t length){
+    u_int8_t mpu_txbuf[20], mpu_rxbuf[20], i = 0;
+    u_int16_t mpu_val[10];
+
+    mpu_txbuf[0] = addr;
+    for(i=0;i<length;i++)mpu_rxbuf[i] = 0x00;
+
+    i2cAcquireBus(&I2CD2);
+    i2cMasterTransmit(&I2CD2, MPU_ADDR, mpu_txbuf, 1, mpu_rxbuf, length);
+    i2cReleaseBus(&I2CD2);
+
+    mpu_val[0] = (mpu_rxbuf[0] << 8) + mpu_rxbuf[1];
+    mpu_val[1] = (mpu_rxbuf[2] << 8) + mpu_rxbuf[3];
+    mpu_val[2] = (mpu_rxbuf[4] << 8) + mpu_rxbuf[5];
+    mpu_val[3] = (mpu_rxbuf[6] << 8) + mpu_rxbuf[7];
+    mpu_val[4] = (mpu_rxbuf[8] << 8) + mpu_rxbuf[9];
+    mpu_val[5] = (mpu_rxbuf[10] << 8) + mpu_rxbuf[11];
+    mpu_val[6] = (mpu_rxbuf[12] << 8) + mpu_rxbuf[13];
+
+    ax0 = mpu_val[0] * rangePerDigit * 9.80665f;
+    ay0 = mpu_val[1] * rangePerDigit * 9.80665f;
+    az0 = mpu_val[2] * rangePerDigit * 9.80665f;
+    mag = d_mpu_vectorMag(ax0,ay0,az0);
+
+#if MPU_DEBUG
+    chprintf((BaseSequentialStream *)&SD1, "Result:");
+    chprintf((BaseSequentialStream *)&SD1, "\t%5.2f\t%5.2f\t%5.2f\t%5.2f",ax,ay,az,mag);
+    chprintf((BaseSequentialStream *)&SD1, "\r\n");
+#endif
+
+    adc00 = adc0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -397,18 +441,6 @@ void d_mpu_whoAmI(void){
 
 }
 
-static THD_WORKING_AREA(waMPU, 256);
-static THD_FUNCTION(thdMPU, arg) {
-
-    (void)arg;
-
-    chRegSetThreadName("MPU Sensing");
-    while (true) {
-        d_mpu_i2cReadData(0x3B, 14);
-        chThdSleepMicroseconds(10);
-    }
-}
-
 /**
  * @brief   Setup for MPU60 module
  */
@@ -441,6 +473,6 @@ void d_mpu_start(void){
     d_mpu_whoAmI();
 
     chThdSleepMilliseconds(200);
-    chThdCreateStatic(waMPU, sizeof(waMPU), NORMALPRIO, thdMPU, NULL);
+    d_mpu_i2cReadFirst(0x3B,14);
 }
 /** @} */

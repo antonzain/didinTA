@@ -51,7 +51,7 @@
  */
 #define OUT_JATUH 2
 
-u_int8_t d_fuzzy(adcsample_t vadc, float vmag);
+u_int16_t d_fuzzy(void);
 
 #endif // DIN_FUZZY_H
 /** @} */

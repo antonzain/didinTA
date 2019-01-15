@@ -37,6 +37,8 @@
  */
 #define ADC_GRP_BUF_DEPTH      10
 
+#define ADC_SCALE              0.012
+
 void d_adc_start(void);
 
 #endif // DIN_ADC_H

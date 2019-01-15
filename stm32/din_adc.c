@@ -22,13 +22,17 @@
  */
 
 #include "din_adc.h"
+#include "din_mpu.h"
+
+
 
 /**
  * @brief   ADC buffer variable.
  */
 static adcsample_t samples[ADC_GRP_NUM_CHANNELS * ADC_GRP_BUF_DEPTH];
-adcsample_t adc0;
+adcsample_t adc0,adc00,adc01;
 uint32_t sum_adc0;
+float v_adc;
 
 void adccb(ADCDriver *adcp, adcsample_t *buffer, size_t n){
   (void) buffer; (void) n;
