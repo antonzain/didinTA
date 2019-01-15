@@ -23,9 +23,6 @@
 
 #include "din_fuzzy.h"
 
-extern adcsample_t adc0;
-extern float ax,ay,az,mag;
-
 /**
  * @brief   Accelerometer fuzzy array variable
  */
@@ -226,9 +223,9 @@ static u_int16_t Decision(unsigned int index){
  * @brief  Main Fuzzy routine
  * @return Response fuzzy logic
  */
-u_int16_t d_fuzzy(void){
-    Accel(mag);
-    Mic(adc0);
+u_int8_t d_fuzzy(float vmag, float vmic){
+    Accel(vmag);
+    Mic(vmic);
 
     return Decision(Evaluasi());
 }

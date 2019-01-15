@@ -39,6 +39,8 @@ float s_v_adc,s_mag;
 float m_ax,m_ay,m_az;
 float m_v_adc,m_mag;
 
+u_int8_t fuz_res;
+
 static THD_WORKING_AREA(waData, 256);
 static THD_FUNCTION(thdData, arg) {
 
@@ -75,7 +77,8 @@ static THD_FUNCTION(thdData, arg) {
             m_v_adc = s_v_adc/100;
             m_mag = s_mag/100;
 
-            chprintf((BaseSequentialStream *)&SD1,"%5.2f,%5.2f,%5.2f,%5.2f,%5.2f\r\n",m_v_adc,m_ax,m_ay,m_az,m_mag);
+            fuz_res = d_fuzzy(m_mag,m_v_adc);
+            chprintf((BaseSequentialStream *)&SD1,"%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%1i\r\n",m_v_adc,m_ax,m_ay,m_az,m_mag,fuz_res);
             // proses fuzzy nanti di sini
 
             i = 0;
