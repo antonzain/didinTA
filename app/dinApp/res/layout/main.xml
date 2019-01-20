@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:weightSum="1">
-
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:weightSum="1">
     <TextView
             android:layout_width="75dp"
             android:layout_height="20dp"
@@ -21,7 +20,8 @@
             android:text="@string/btnReq"
             android:id="@+id/btnReq"
             android:layout_marginTop="41dp"
-            android:layout_below="@+id/txtOut" android:layout_alignStart="@+id/txtAx"/>
+            android:layout_below="@+id/txtOut"
+            android:layout_alignStart="@+id/txtAx"/>
 
     <TextView
             android:layout_width="360dp"
@@ -66,7 +66,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="@string/copyright"
             android:id="@+id/lblCopyright"
-            android:layout_alignEnd="@+id/txtOut" android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/btnReq" android:gravity="right"/>
+            android:layout_alignEnd="@+id/txtOut"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/btnReq"
+            android:gravity="right"/>
 </RelativeLayout>
 

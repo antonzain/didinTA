@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/myscapp.iml" filepath="$PROJECT_DIR$/myscapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dinApp.iml" filepath="$PROJECT_DIR$/dinApp.iml" />
     </modules>
   </component>
 </project>
