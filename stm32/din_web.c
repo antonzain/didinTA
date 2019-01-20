@@ -23,8 +23,71 @@
 
 #include "din_web.h"
 
-extern adcsample_t adc0;
+extern adcsample_t adc0,adc00,adc01;
+extern float v_adc;
 extern float ax,ay,az,mag;
+
+float s_ax,s_ay,s_az;
+float s_v_adc,s_mag;
+float m_ax,m_ay,m_az;
+float m_v_adc,m_mag;
+
+u_int8_t fuz_res;
+u_int8_t fall_stt=0;
+
+static THD_WORKING_AREA(waData, 256);
+static THD_FUNCTION(thdData, arg) {
+
+    (void)arg;
+
+    uint8_t i=0;
+
+    s_ax = 0;
+    s_ay = 0;
+    s_az = 0;
+    s_v_adc = 0;
+    s_mag = 0;
+
+    chRegSetThreadName("Data Process");
+    while (true) {
+        d_mpu_i2cReadData(0x3B, 14);
+
+        adc01 = adc0;
+        v_adc = ADC_SCALE * abs(adc01-adc00);
+        adc00 = adc01;
+
+        s_ax = s_ax + ax;
+        s_ay = s_ay + ay;
+        s_az = s_az + az;
+        s_v_adc = s_v_adc + v_adc;
+        s_mag = s_mag + mag;
+
+        i++;
+
+        if(i==100){
+            m_ax = s_ax/100;
+            m_ay = s_ay/100;
+            m_az = s_az/100;
+            m_v_adc = s_v_adc/100;
+            m_mag = s_mag/100;
+
+            fuz_res = d_fuzzy(m_mag,m_v_adc);
+            if(fuz_res==2){
+                fall_stt = 1;
+            }
+//            chprintf((BaseSequentialStream *)&SD1,"%5.2f:%5.2f:%5.2f:%5.2f:%5.2f:%1i\r\n",m_v_adc,m_ax,m_ay,m_az,m_mag,fuz_res);
+
+            i = 0;
+            s_ax = 0;
+            s_ay = 0;
+            s_az = 0;
+            s_v_adc = 0;
+            s_mag = 0;
+        }
+
+        chThdSleepMilliseconds(1);
+    }
+}
 
 /**
  * @brief   Shell handler variable.
@@ -36,7 +99,7 @@ static thread_t *shelltp = NULL;
  * @brief   Server request notification to SD1.
  */
 static void request_notif(u_int8_t chan){
-    chprintf((BaseSequentialStream *)&SD1,"%i: %4i:%5.2f:%5.2f:%5.2f:%5.2f\r\n",chan,adc0,ax,ay,az,mag);
+    chprintf((BaseSequentialStream *)&SD1,"%i:%5.2f:%5.2f:%5.2f:%5.2f:%5.2f:%1i\r\n",chan,m_v_adc,m_ax,m_ay,m_az,m_mag,fall_stt);
 }
 #endif
 
@@ -45,7 +108,7 @@ static void request_notif(u_int8_t chan){
  */
 static void text_http(void){
     chThdSleepMilliseconds(100);
-    chprintf((BaseSequentialStream *)&SD2,"%4i:%5.2f:%5.2f:%5.2f:%5.2f\r\n",adc0,ax,ay,az,mag);
+    chprintf((BaseSequentialStream *)&SD2,"%5.2f:%5.2f:%5.2f:%5.2f:%5.2f:%1i\r\n",m_v_adc,m_ax,m_ay,m_az,m_mag,fall_stt);
     chThdSleepMilliseconds(100);
     chprintf((BaseSequentialStream *)&SD2,"\r\n");
     chThdSleepMilliseconds(100);
@@ -63,7 +126,7 @@ static void cmd_send0(BaseSequentialStream *chp, int argc, char *argv[]) {
 #if SERVER_NOTIF
     request_notif(0);
 #endif
-  chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=0,28\r\n");
+  chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=0,32\r\n");
   text_http();
   chprintf((BaseSequentialStream *)&SD2,"AT+CIPCLOSE=0\r\n");
 }
@@ -80,7 +143,7 @@ static void cmd_send1(BaseSequentialStream *chp, int argc, char *argv[]) {
 #if SERVER_NOTIF
     request_notif(1);
 #endif
-    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=1,28\r\n");
+    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=1,32\r\n");
     text_http();
     chprintf((BaseSequentialStream *)&SD2,"AT+CIPCLOSE=1\r\n");
 }
@@ -97,7 +160,7 @@ static void cmd_send2(BaseSequentialStream *chp, int argc, char *argv[]) {
 #if SERVER_NOTIF
     request_notif(2);
 #endif
-    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=2,28\r\n");
+    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=2,32\r\n");
     text_http();
     chprintf((BaseSequentialStream *)&SD2,"AT+CIPCLOSE=2\r\n");
 }
@@ -114,7 +177,7 @@ static void cmd_send3(BaseSequentialStream *chp, int argc, char *argv[]) {
 #if SERVER_NOTIF
     request_notif(3);
 #endif
-    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=3,28\r\n");
+    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=3,32\r\n");
     text_http();
     chprintf((BaseSequentialStream *)&SD2,"AT+CIPCLOSE=3\r\n");
 }
@@ -131,7 +194,7 @@ static void cmd_send4(BaseSequentialStream *chp, int argc, char *argv[]) {
 #if SERVER_NOTIF
     request_notif(4);
 #endif
-    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=4,28\r\n");
+    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=4,32\r\n");
     text_http();
     chprintf((BaseSequentialStream *)&SD2,"AT+CIPCLOSE=4\r\n");
 }
@@ -148,7 +211,7 @@ static void cmd_send5(BaseSequentialStream *chp, int argc, char *argv[]) {
 #if SERVER_NOTIF
     request_notif(5);
 #endif
-    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=5,28\r\n");
+    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=5,32\r\n");
     text_http();
     chprintf((BaseSequentialStream *)&SD2,"AT+CIPCLOSE=5\r\n");
 }
@@ -165,7 +228,7 @@ static void cmd_send6(BaseSequentialStream *chp, int argc, char *argv[]) {
 #if SERVER_NOTIF
     request_notif(6);
 #endif
-    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=6,28\r\n");
+    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=6,32\r\n");
     text_http();
     chprintf((BaseSequentialStream *)&SD2,"AT+CIPCLOSE=6\r\n");
 }
@@ -182,7 +245,7 @@ static void cmd_send7(BaseSequentialStream *chp, int argc, char *argv[]) {
 #if SERVER_NOTIF
     request_notif(7);
 #endif
-    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=7,28\r\n");
+    chprintf((BaseSequentialStream *)&SD2,"AT+CIPSEND=7,32\r\n");
     text_http();
     chprintf((BaseSequentialStream *)&SD2,"AT+CIPCLOSE=7\r\n");
 }
@@ -250,5 +313,9 @@ void d_web_setup(void){
     chThdSleepMilliseconds(100);
     chprintf((BaseSequentialStream *)&SD2,"AT+CIPSERVER=1,80\r\n");
     chThdSleepMilliseconds(100);
+}
+
+void d_web_data(void){
+    chThdCreateStatic(waData, sizeof(waData), NORMALPRIO, thdData, NULL);
 }
 /** @} */

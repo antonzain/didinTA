@@ -2,5 +2,7 @@
 <resources>
     <string name="app_name">dinApp</string>
     <string name="btnReq">Test Request</string>
-    <string name="copyright">written by: Achmadi S.T.@2018</string>
+    <string name="btnNotif">Test Notify</string>
+    <string name="btnStart">Test Start</string>
+    <string name="copyright">written by: Zainudin S.T.@2018</string>
 </resources>

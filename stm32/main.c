@@ -30,69 +30,6 @@
 #include "din_mpu.h"
 #include "din_fuzzy.h"
 
-extern adcsample_t adc0,adc00,adc01;
-extern float v_adc;
-extern float ax,ay,az,mag;
-
-float s_ax,s_ay,s_az;
-float s_v_adc,s_mag;
-float m_ax,m_ay,m_az;
-float m_v_adc,m_mag;
-
-u_int8_t fuz_res;
-
-static THD_WORKING_AREA(waData, 256);
-static THD_FUNCTION(thdData, arg) {
-
-    (void)arg;
-
-    uint8_t i=0;
-
-    s_ax = 0;
-    s_ay = 0;
-    s_az = 0;
-    s_v_adc = 0;
-    s_mag = 0;
-
-    chRegSetThreadName("Data Process");
-    while (true) {
-        d_mpu_i2cReadData(0x3B, 14);
-
-        adc01 = adc0;
-        v_adc = ADC_SCALE * abs(adc01-adc00);
-        adc00 = adc01;
-
-        s_ax = s_ax + ax;
-        s_ay = s_ay + ay;
-        s_az = s_az + az;
-        s_v_adc = s_v_adc + v_adc;
-        s_mag = s_mag + mag;
-
-        i++;
-
-        if(i==100){
-            m_ax = s_ax/100;
-            m_ay = s_ay/100;
-            m_az = s_az/100;
-            m_v_adc = s_v_adc/100;
-            m_mag = s_mag/100;
-
-            fuz_res = d_fuzzy(m_mag,m_v_adc);
-            chprintf((BaseSequentialStream *)&SD1,"%5.2f,%5.2f,%5.2f,%5.2f,%5.2f,%1i\r\n",m_v_adc,m_ax,m_ay,m_az,m_mag,fuz_res);
-            // proses fuzzy nanti di sini
-
-            i = 0;
-            s_ax = 0;
-            s_ay = 0;
-            s_az = 0;
-            s_v_adc = 0;
-            s_mag = 0;
-        }
-
-        chThdSleepMilliseconds(1);
-    }
-}
-
 static THD_WORKING_AREA(waLED, 128);
 static THD_FUNCTION(thdLED, arg) {
 
@@ -114,7 +51,7 @@ int main(void) {
   chSysInit();
 
   d_adc_start();
-//  d_web_start();
+  d_web_start();
   d_uart_start();
   d_uart_info();
   d_mpu_start();
@@ -123,18 +60,18 @@ int main(void) {
   chprintf((BaseSequentialStream *)&SD1,"All Setup Finished\r\n");
 #endif
 
-  chThdSleepMilliseconds(200);
-  chThdCreateStatic(waData, sizeof(waData), NORMALPRIO, thdData, NULL);
-
   palSetPadMode(GPIOC,13,PAL_MODE_OUTPUT_PUSHPULL);
   palClearPad(GPIOC,13);
   chThdCreateStatic(waLED, sizeof(waLED), NORMALPRIO, thdLED, NULL);
 
   chThdSleepMilliseconds(200);
+  d_web_data();
+
+  chThdSleepMilliseconds(200);
 
   while(true){
     chThdSleepMilliseconds(1);
-//    d_web_term();
+    d_web_term();
   }
 }
 /** @} */

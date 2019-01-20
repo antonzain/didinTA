@@ -36,11 +36,12 @@
 
 #include "din_adc.h"
 #include "din_mpu.h"
+#include "din_fuzzy.h"
 
 /**
  * @brief   Notification Message.
  */
-#define SERVER_NOTIF FALSE
+#define SERVER_NOTIF TRUE
 
 /*
  * Definisi ukuran standar alokasi memori untuk thread dan shell
@@ -51,6 +52,7 @@
 void d_web_start(void);
 void d_web_term(void);
 void d_web_setup(void);
+void d_web_data(void);
 
 #endif // DIN_WEB_H
 /** @} */
