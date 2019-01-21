@@ -38,6 +38,7 @@ public class MyActivity extends Activity {
     TextView txtMag;
     TextView txtMic;
     TextView txtFall;
+    TextView txtFuzz;
     TextView txtOut;
 
     private Runnable datreq;
@@ -57,6 +58,7 @@ public class MyActivity extends Activity {
         txtMag = (TextView) findViewById(R.id.txtMag);
         txtMic = (TextView) findViewById(R.id.txtMic);
         txtFall = (TextView) findViewById(R.id.txtFall);
+        txtFuzz = (TextView) findViewById(R.id.txtFuzz);
         txtOut = (TextView) findViewById(R.id.txtOut);
         txtOut.setMovementMethod(new ScrollingMovementMethod());
 
@@ -67,7 +69,7 @@ public class MyActivity extends Activity {
                 txtOut.append("Trying to Request\n");
                 MyClientTask mycl = new MyClientTask("192.168.4.1");
                 mycl.execute();
-                hreq.postDelayed(this,2000);
+                hreq.postDelayed(this,500);
             }
         };
 
@@ -119,7 +121,7 @@ public class MyActivity extends Activity {
         Notification mNotification = new Notification(R.drawable.ic_launcher, MyText, System.currentTimeMillis() );
 
         String MyNotificationTitle = "Nenek anda terjatuh!";
-        String MyNotificationText  = "Klaim warisan sekarang?";
+        String MyNotificationText  = "Tolong lihat Nenek anda";
 
         Intent MyIntent = new Intent(Intent.ACTION_VIEW);
         PendingIntent StartIntent = PendingIntent.getActivity(getApplicationContext(),0,MyIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -195,15 +197,16 @@ public class MyActivity extends Activity {
             if (resData.length() > 0) {
                 String[] arrStrData = resData.split(":");
 
-                if (arrStrData.length > 5) {
+                if (arrStrData.length > 6) {
                     txtMic.setText(arrStrData[0].trim());
                     txtAx.setText(arrStrData[1].trim());
                     txtAy.setText(arrStrData[2].trim());
                     txtAz.setText(arrStrData[3].trim());
                     txtMag.setText(arrStrData[4].trim());
-                    txtFall.setText(arrStrData[5].trim());
+                    txtFuzz.setText(arrStrData[5].trim());
+                    txtFall.setText(arrStrData[6].trim());
 
-                    if(Integer.parseInt(arrStrData[5].trim())==2){
+                    if(Integer.parseInt(arrStrData[6].trim())==1){
                         showNotification();
                     }
 

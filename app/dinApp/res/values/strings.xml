@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">dinApp</string>
+    <string name="app_name">FALLNOTIF</string>
     <string name="btnReq">Test Request</string>
     <string name="btnNotif">Test Notify</string>
     <string name="btnStart">Test Start</string>

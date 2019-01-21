@@ -41,32 +41,32 @@ static float f_rule[RULE_SIZE];
 /**
  * @brief   Accelerometer low membership array variable
  */
-static double vf_accel_rendah[2] = {17.79, 27.44};
+static float vf_accel_rendah[2] = {7, 7.78493};
 
 /**
  * @brief   Accelerometer mid membership array variable
  */
-static double vf_accel_sedang[3] = {18.49, 26.94, 31.83};
+static float vf_accel_sedang[3] = {7.6109, 9, 10.3521};
 
 /**
  * @brief   Accelerometer high membership array variable
  */
-static double vf_accel_tinggi[2] = {27.44, 31.33};
+static float vf_accel_tinggi[2] = {9.0384, 13};
 
 /**
  * @brief   Mic low membership array variable
  */
-static unsigned int vf_mic_rendah[2] = {473, 542};
+static float vf_mic_rendah[2] = {5, 7.57378};
 
 /**
  * @brief   Mic mid membership array variable
  */
-static unsigned int vf_mic_sedang[3] = {473, 542, 591};
+static float vf_mic_sedang[3] = {5.5467, 8, 9.31291};
 
 /**
  * @brief   Mic high membership array variable
  */
-static unsigned int vf_mic_tinggi[2] = {542, 591};
+static float vf_mic_tinggi[2] = {7.33903,12 };
 
 /**
  * @brief   Accelerometer membership fuzzyfication
